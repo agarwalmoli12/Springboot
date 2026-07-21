@@ -36,4 +36,9 @@ public class CourseServiceimpl implements CourseService {
         return c;
     }
 
+    public Course addCourse(Course course){
+        list.add(course);
+        return course;
+    }
+
 }

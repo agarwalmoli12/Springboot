@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springrest.springrest.entities.Course;
@@ -15,6 +17,8 @@ import com.springrest.springrest.service.CourseService;
 public class Mycontroller {
     @Autowired
     private CourseService courseservice;
+    
+
 
     
     
@@ -35,6 +39,11 @@ public class Mycontroller {
     @GetMapping("/couses/{courseID}")
     public Course getcourse(@PathVariable String courseID){
         return this.courseservice.getcourse(Long.parseLong(courseID));
+    }
+
+    @PostMapping("/courses")
+    public Course addcourse(@RequestBody Course course){
+        return this.courseservice.addCourse(course);
     }
         
 }
