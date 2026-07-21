@@ -1,3 +1,8 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.project.sourcePaths": [
+        "Java/Day1/Day2",
+        "Java/Day1",
+        "springrest/src/main/java/com/springrest/springrest"
+    ]
 }

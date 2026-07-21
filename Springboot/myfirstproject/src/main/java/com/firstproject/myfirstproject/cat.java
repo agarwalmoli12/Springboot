@@ -5,5 +5,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class cat {
     @Autowired
-    Dog dog;
+    dog Dog;
+
+
+    public String name(){
+        return Dog.name();
+    }
+
+
 }
