@@ -41,4 +41,25 @@ public class CourseServiceimpl implements CourseService {
         return course;
     }
 
+    public Course updateCourse(Course course){
+        list.add(course);
+        return course;
+    }
+
+    public Course deleteCourse(Long parseLong) {
+        Course c=null;
+        for(Course course:list){
+            if(course.getId()==parseLong){
+                c=course;
+                list.remove(c);
+                break;
+            }
+            list.remove(c);
+        }
+        return c;
+
+        
+        
+    }
+
 }
