@@ -55,4 +55,8 @@ public class Course {
     public String toString() {
         return "Course [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + "]";
     }
+
+    public String getCourseID() {
+        return id;
+    }
 }

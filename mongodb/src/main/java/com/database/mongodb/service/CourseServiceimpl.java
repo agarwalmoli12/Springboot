@@ -30,5 +30,24 @@ public class CourseServiceimpl implements CourseService{
 
         return course;
     }
+
+    public Course deleteCourse(Long  courseID){
+        Course course= repository.findById(courseID).orElse(null);
+        repository.delete(course);
+        return course;
+
+    }
+
+
+    public Course updateCourse(Course newcourse){
+        Course oldcourse= repository.findById(newcourse.getCourseID()).orElse(null);
+        if(oldcourse!=null){
+            oldcourse.setName(newcourse.getName()!=null && !newcourse.getName().equals("")?newcourse.getName():oldcourse.getName());
+            oldcourse.setDescription(newcourse.getDescription()!=null && !newcourse.getDescription().equals("")?newcourse.getDescription():oldcourse.getDescription());
+            repository.save(oldcourse);
+            return oldcourse;
+        }
+        return oldcourse;
+    }
 }
 
