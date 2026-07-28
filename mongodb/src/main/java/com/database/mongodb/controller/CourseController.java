@@ -19,7 +19,7 @@ import com.database.mongodb.service.CourseService;
 import org.springframework.http.HttpStatus;
 
 @RestController
-public class Controller {
+public class CourseController {
 
     @Autowired
     private CourseService courseservice;
@@ -44,7 +44,7 @@ public class Controller {
             return (ResponseEntity<Course>) ResponseEntity.status(HttpStatus.NOT_FOUND);
         }
     }
-    }
+    
 
     @PostMapping("/course")
     public Course addCourse(@RequestBody Course course){
@@ -61,7 +61,10 @@ public class Controller {
         return this.courseservice.deleteCourse(courseID);
     }
 
+}
+
+
 
 
     
-}
+
