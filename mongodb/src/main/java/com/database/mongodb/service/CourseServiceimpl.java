@@ -2,11 +2,12 @@ package com.database.mongodb.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.database.mongodb.entity.Course;
+import com.database.mongodb.entity.User;
 import com.database.mongodb.repository.courserepository;
 @Service
 public class CourseServiceimpl implements CourseService{
@@ -25,18 +26,20 @@ public class CourseServiceimpl implements CourseService{
 
     
     public Course addCourse(Course course){
-        repository.save(course);
+        return repository.save(course);
 
 
-        return course;
+        
     }
 
-    public Course deleteCourse(Long  courseID){
-        Course course= repository.findById(courseID).orElse(null);
+    public Course deleteCourse(String courseID) {
+    Course course = repository.findById(courseID).orElse(null);
+    if (course != null) {
         repository.delete(course);
-        return course;
-
     }
+
+    return course;
+}
 
 
     public Course updateCourse(Course newcourse){
@@ -49,5 +52,18 @@ public class CourseServiceimpl implements CourseService{
         }
         return oldcourse;
     }
+
+
+    
+    
+
+
+    @Override
+    public Course getCourse(String courseID) {
+        return repository.findById(courseID).orElse(null);
+    }
+
+
+   
 }
 

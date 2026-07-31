@@ -8,5 +8,6 @@ public interface userService {
     List<User> getUsers();
     User addUser(User user);
     void deleteuser(String id);
-    User findbyusername(String username);
+    User findByUsername(String username);
+    
 }

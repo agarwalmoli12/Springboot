@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User addUser(@RequestBody User user){
+    public User addUser(@RequestBody User user){     // agar multiple user ek sath add krne ho toh @RequestBody List<User> user
         return service.addUser(user);
     }
 
@@ -37,9 +37,9 @@ public class UserController {
     public void deleteuser(@PathVariable String id){
         service.deleteuser(id);
     }
-    @PutMapping("/users")
-    public ResponseEntity<User> findbyusername(@RequestBody User user){
-        User userindb = service.findbyusername(user.getUsername());
+    @PutMapping("/users/{username}")
+    public ResponseEntity<User> findByUsername(@RequestBody User user , @PathVariable String username){
+        User userindb = service.findByUsername(username);
         if(userindb !=null){
             userindb.setUsername(user.getUsername());
             userindb.setPassword(user.getPassword());
