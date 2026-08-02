@@ -1,8 +1,12 @@
 package com.database.mongodb.service;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.database.mongodb.entity.User;
@@ -27,6 +31,18 @@ public class userServiceImpl implements userService {
     
     public User findByUsername(String username){
         return repository.findByUsername(username);
+    }
+
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public User saveEntry(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return repository.save(user);
+    }
+    public User saveNewuser(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("User"));
+        return repository.save(user);
     }
 
     

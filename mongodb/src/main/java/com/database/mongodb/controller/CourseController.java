@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,10 +42,15 @@ public class CourseController {
         return this.courseservice.getCourses();
     }
 
-    @GetMapping("/course/{username}")
-    public ResponseEntity<List<Course>> getCourse(@PathVariable String username){
+    @GetMapping("id/{courseID}")
+    public ResponseEntity<List<Course>> getCourse(@PathVariable String username, @PathVariable String courseID){
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         User user = userservice.findByUsername(username);
-        List<Course> course = user.getCourse();
+        List<Course> course = user.getCourse().stream().filter(x-> x.getId().equals(courseID)).collect(java.util.stream.Collectors.toList());
+        if(!collect.isEmpty()){
+            courseID = collect.get(0).getId();
+            return ResponseEntity.ok(course);
         if(course != null){
             return ResponseEntity.ok(course);
         }else{

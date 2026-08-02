@@ -27,6 +27,7 @@ public class User {
 
     @DBRef  
     List<Course> course=new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
     
 
     
