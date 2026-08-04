@@ -3,9 +3,6 @@ package com.database.mongodb.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,26 +39,30 @@ public class CourseController {
         return this.courseservice.getCourses();
     }
 
+   
     @GetMapping("id/{courseID}")
-    public ResponseEntity<List<Course>> getCourse(@PathVariable String username, @PathVariable String courseID){
+    public ResponseEntity<List<Course>> getCourse(@PathVariable String courseID){
         org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        User user = userservice.findByUsername(username);
+        User user = userservice.findByUsername(userName);
         List<Course> course = user.getCourse().stream().filter(x-> x.getId().equals(courseID)).collect(java.util.stream.Collectors.toList());
-        if(!collect.isEmpty()){
-            courseID = collect.get(0).getId();
-            return ResponseEntity.ok(course);
-        if(course != null){
-            return ResponseEntity.ok(course);
-        }else{
+        if(course.isEmpty()){
             return (ResponseEntity<List<Course>>) ResponseEntity.status(HttpStatus.NOT_FOUND);
         }
+        //if(course != null){
+        //    return ResponseEntity.ok(course);
+        //}else{
+        //    return (ResponseEntity<List<Course>>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+        //}
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     
 
-    @PostMapping("/course/{username}")
-    public Course addCourse(@RequestBody Course course, @PathVariable String username){
-        User user = userservice.findByUsername(username);
+    @PostMapping("/course")
+    public Course addCourse(@RequestBody Course course){
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userservice.findByUsername(userName);
         user.getCourse().add(course);
         userservice.addUser(user);
         return this.courseservice.addCourse(course);
@@ -73,15 +74,18 @@ public class CourseController {
     }
 
     @DeleteMapping("/course/{courseID}")
-    public Course deleteCourse(@PathVariable String courseID, @PathVariable String username){
+    public Course deleteCourse(@PathVariable String courseID){
 
-        User user = userservice.findByUsername(username);
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userservice.findByUsername(userName);
         user.getCourse().removeIf(c -> c.getId().equals(courseID));
         userservice.addUser(user);
         return courseservice.deleteCourse(courseID);
     }
 
 }
+
 
 
 

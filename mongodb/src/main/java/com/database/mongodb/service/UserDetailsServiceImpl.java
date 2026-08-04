@@ -1,6 +1,6 @@
 package com.database.mongodb.service;
 
-import org.apache.catalina.User;
+import com.database.mongodb.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +19,12 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        User user= (User) userrepository.findByUsername(username);
+        User user=  userrepository.findByUsername(username);
         if(user !=null){
             UserDetails userDetails= org.springframework.security.core.userdetails.User.builder()
             .username(user.getUsername())
             .password(user.getPassword())
-            .roles(((Object) user.getRoles()).toString())
+            .roles(user.getRoles().toArray(new String[0]))
             .build();
             return userDetails;
 

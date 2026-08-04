@@ -2,10 +2,7 @@ package com.database.mongodb.controller;
 
 import java.util.List;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +17,6 @@ import com.database.mongodb.entity.User;
 import com.database.mongodb.repository.userrepository;
 import com.database.mongodb.service.userService;
 
-
 @RestController
 public class UserController {
     @Autowired
@@ -32,13 +28,11 @@ public class UserController {
     public List<User> getUsers(){
         return service.getUsers();
     }
+
     @GetMapping("/users/{username}")
     public User saveEntry(@PathVariable String username){
         return service.findByUsername(username);
     }
-
-
-    
 
     @DeleteMapping("/users/{id}")
     public void deleteuser(@PathVariable String id){
@@ -47,22 +41,27 @@ public class UserController {
 
     @DeleteMapping("/users")
     public ResponseEntity<?> deleteById(){
-    org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    repository.deleteByUsername(authentication.getName());
-    return ResponseEntity.ok().build();
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        repository.deleteByUsername(authentication.getName());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/users")
-    public ResponseEntity<User> findByUsername(@RequestBody User user , @PathVariable String username){
+    public ResponseEntity<User> findByUsername(@RequestBody User user ){
         org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName(); 
-        User userindb = service.findByUsername(username);
+        String userName = authentication.getName();
+        User userindb = service.findByUsername(userName);
+        if (userindb == null) {
+            return ResponseEntity.notFound().build();
+        }
         userindb.setUsername(user.getUsername());
         userindb.setPassword(user.getPassword());
+        userindb.setRoles(user.getRoles());
         service.saveEntry(userindb);
         return ResponseEntity.ok(userindb);
-        }
-        }
+    }
+}
+
 
         
     
