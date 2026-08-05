@@ -2,7 +2,6 @@ package com.database.mongodb.service;
 
 import com.database.mongodb.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +11,7 @@ import com.database.mongodb.repository.userrepository;
 
 
 @Component
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService{ //user db se load karne  
 
     @Autowired
     private userrepository userrepository;
